@@ -1,15 +1,15 @@
 <?php
 
-function roots($a, $b, $c)
+function swap(&$firstNum, &$secondNum)
 {
-    $D = $b * $b - 4 * $a * $c;
-    if ($D < 0) {
-        return false;
-    }
-    return [(-$b + sqrt($D) / 2 * $a), (-$b - sqrt($D) / 2 * $a)];
+    $temp = $firstNum;
+    $firstNum = $secondNum;
+    $secondNum = $temp;
 }
 
+$a = 5;
+$b = 8;
+swap($a, $b);
 
-print_r(roots(21, -4, 0));
-print_r(roots(21, 56, 1));
-print_r(roots(21, -4, 1));
+print_r($a); // 8
+print_r($b); // 5
