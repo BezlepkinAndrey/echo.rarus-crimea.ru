@@ -6,5 +6,6 @@ use function PHPSTORM_META\map;
 
 function addPrefix($arr, $prefix)
 {
-    return $arr.map(function ($item){return $prefix.$item;});
+    return array_map(function ($item) use ($prefix) {return $prefix.' '.$item;}, $arr);
 }
+

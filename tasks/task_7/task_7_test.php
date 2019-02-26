@@ -2,10 +2,10 @@
 
 namespace Test;
 
-use function App\Arrays\get;
+use function App\Arrays\addPrefix;
 
-$cities = ['moscow', 'london', 'berlin', 'porto'];
+$names = ['john', 'smith', 'karl'];
 
-print_r(get($cities, 1)); // => london
-print_r(get($cities, 4)); // => null
-print_r(get($cities, 10, 'paris')); // => paris
+$newNames = addPrefix($names, 'Mr');
+print_r($newNames);
+// => ['Mr john', 'Mr smith', 'Mr karl'];
