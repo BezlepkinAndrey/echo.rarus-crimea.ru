@@ -2,20 +2,10 @@
 
 function wordsCount($str)
 {
-    $words = array_filter(preg_split('/\s/', $str), function ($item) {
+    $words = array_filter(preg_split('/([a-zA-Zа-яА-Я]{1,}(-|—)[a-zA-Zа-яА-Я]{1,})|(\W|_)/', $str), function ($item) {
         return !empty($item);
     });
-    $result = [];
-    foreach ($words as $word) {
-        if (key_exists($word, $result)) {
-            $result[$word]++;
-
-        } else {
-            $result[$word] = 1;
-
-        }
-    }
-    return $result;
+    return array_count_values($words);
 }
 
 print_r(wordsCount('')); // []
