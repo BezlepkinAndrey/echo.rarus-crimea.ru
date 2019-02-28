@@ -8,19 +8,19 @@ function wordsCount($str)
     return array_count_values($words);
 }
 
-$options = getopt('p:');
+$options = getopt('f:');
 if(!$options)
 {
-    print_r('set path (-p)');
+    print_r('set path (-f)');
     return;
 }
 
-if(!is_readable($options['p'])){
+if(!is_readable($options['f'])){
     print_r('file is not readable');
     return;
 }
 
-$str = file_get_contents($options['p']);
+$str = file_get_contents($options['f']);
 
 print_r(wordsCount($str));
 
