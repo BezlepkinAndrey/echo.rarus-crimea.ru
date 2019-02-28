@@ -2,20 +2,18 @@
 
 function wordsCount($str)
 {
-    $words = array_filter(preg_split('/[^а-яА-Яa-zA-Z0-9]/', $str), function ($item) {
-        return !empty($item);
-    });
+    $str = mb_strtolower($str);
+    $words = preg_split('/[^0-9A-Za-zА-Яа-яЁё]+/u', $str, -1, PREG_SPLIT_NO_EMPTY);
     return array_count_values($words);
 }
 
 $options = getopt('f:');
-if(!$options)
-{
+if (!$options) {
     print_r('set path (-f)');
     return;
 }
 
-if(!is_readable($options['f'])){
+if (!is_readable($options['f'])) {
     print_r('file is not readable');
     return;
 }

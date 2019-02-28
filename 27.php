@@ -2,9 +2,7 @@
 
 function wordsCount($str)
 {
-    $words = array_filter(preg_split('/([a-zA-Zа-яА-Я]{1,}(-|—)[a-zA-Zа-яА-Я]{1,})|(\W|_)/', $str), function ($item) {
-        return !empty($item);
-    });
+    $words = preg_split('/\W/u', $str, -1, PREG_SPLIT_NO_EMPTY);
     return array_count_values($words);
 }
 
