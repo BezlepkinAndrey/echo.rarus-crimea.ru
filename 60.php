@@ -10,7 +10,7 @@ function load($file)
 {
 
     $str = file_get_contents($file);
-    if (!$str) {
+    if ($str === false) {
         return false;
     }
 
