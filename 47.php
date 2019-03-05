@@ -29,8 +29,10 @@ function getQuerys()
 {
 
     $allQuery = [];
-    $allQuery[] = "create table users (id int primary key auto_increment, username varchar (255) unique not null, email varchar (255) not null , created_at timestamp not null )";
-    $allQuery[] = "create table topics (id int primary key auto_increment, user_id int references users(id), body text not null , created_at timestamp not null )";
+    $allQuery[] = 'DROP TABLE IF EXISTS users;';
+    $allQuery[] = "create table users (id int primary key auto_increment, username varchar (255) unique not null, email varchar (255) not null , created_at timestamp not null );";
+    $allQuery[] = 'DROP TABLE IF EXISTS topics;';
+    $allQuery[] = "create table topics (id int primary key auto_increment, user_id int references users(id), body text not null , created_at timestamp not null );";
 
     return $allQuery;
 }
