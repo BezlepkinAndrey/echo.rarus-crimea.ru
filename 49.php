@@ -29,9 +29,9 @@ function SQLQuery($mysqli, $sql)
 function getQuery()
 {
 
-    $allQuery = 'select first_name from users order by birthday';
+    $query = 'select first_name from users order by birthday';
 
-    return $allQuery;
+    return $query;
 }
 
 
@@ -41,7 +41,11 @@ function runQuery(mysqli $mysqli, $query)
     try {
 
 
-        $result = mysqli_fetch_all(SQLQuery($mysqli, $query));
+
+        $res = SQLQuery($mysqli, $query);
+        for (; $row = $res->fetch_assoc(); $result[] = $row) {
+            ;
+        }
 
 
     } catch (Exception $e) {
@@ -53,11 +57,56 @@ function runQuery(mysqli $mysqli, $query)
     return $result;
 }
 
+function getInitQuerys()
+{
+
+    $allQuery = [];
+
+    $allQuery[] = 'DROP TABLE IF EXISTS users;';
+    $allQuery[] = 'CREATE TABLE users (
+    first_name varchar(255),
+    email varchar(255),
+    birthday timestamp
+);';
+    $allQuery[] = "INSERT INTO users (first_name, email, birthday) VALUES
+  ('Sansa', 'sansa@winter.com', '1999-10-23'),
+  ('Jon', 'jon@winter.com', '1999-10-07'),
+  ('Daenerys', 'daenerys@drakaris.com', NULL),
+  ('Arya', 'arya@winter.com', '2003-03-29'),
+  ('Robb', 'robb@winter.com', '1999-11-23'),
+  ('Brienne', 'brienne@tarth.com', '2001-04-04'),
+  ('Tirion', 'tirion@got.com', '1975-1-11');";
+    return $allQuery;
+}
+
+
+function runQuerys(mysqli $mysqli, $querys)
+{
+    try {
+        $mysqli->begin_transaction();
+
+        foreach ($querys as $query) {
+            SQLQuery($mysqli, $query);
+        }
+
+        $mysqli->commit();
+
+    } catch (Exception $e) {
+
+        $mysqli->rollback();
+        throw $e;
+
+    }
+
+    return true;
+}
+
+
+
 
 $mysqli = getMySQLIObj();
-
+runQuerys($mysqli, getInitQuerys());
 $query = getQuery();
 $result = runQuery($mysqli, $query);
-
 print_r($result);
 
