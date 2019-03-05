@@ -1,30 +1,32 @@
 <?php
 
-function cd($curentDir, $needDir)
+function cd($currentDir, $needDir)
 {
-    if (empty($curentDir)) {
+    if (empty($currentDir)) {
         throw new Exception('ERROR: FIRST PATH IS INCORRECT');
     }
 
-    if ($curentDir[0] != '/') {
+    if ($currentDir[0] != '/') {
         throw new Exception('ERROR: FIRST PATH IS INCORRECT');
     }
 
     if (empty($needDir)) {
-        return $curentDir;
+        return $currentDir;
     }
 
     if ($needDir[0] == '/') {
         return $needDir;
     }
 
-    $curentDir = preg_split('/\//', $curentDir, -1, PREG_SPLIT_NO_EMPTY);
+    $currentDir = preg_split('/\//', $currentDir, -1, PREG_SPLIT_NO_EMPTY);
+    array_splice($currentDir, 0, 0, '/');
+
     $needDir = preg_split('/\//', $needDir, -1, PREG_SPLIT_NO_EMPTY);
 
     foreach ($needDir as $dir) {
         if ($dir == '..') {
-            array_pop($curentDir);
-            if (empty($curentDir)) {
+            array_pop($currentDir);
+            if (empty($currentDir)) {
                 throw new Exception('ERROR: SECOND PATH IS INCORRECT');
             }
             continue;
@@ -33,11 +35,15 @@ function cd($curentDir, $needDir)
             continue;
         }
 
-        array_push($curentDir, $dir);
+        array_push($currentDir, $dir);
     }
-    return '/' . implode($curentDir, '/');
+    array_shift($currentDir);
+    return '/' . implode($currentDir, '/');
 }
 
 echo cd('/current/path', '/etc'); // /etc
 echo ' ';
 echo cd('/current/path', '.././anotherpath'); // /current/anotherpath
+echo ' ';
+echo cd('/current/path', '../../'); // /current
+echo ' ';
