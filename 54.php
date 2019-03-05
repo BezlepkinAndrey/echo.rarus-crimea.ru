@@ -29,7 +29,7 @@ function SQLQuery($mysqli, $sql)
 function getQuery()
 {
 
-    $query = "SELECT COUNT(*) as count, year(birthdayYaer) as year FROM (SELECT birthday as birthdayYaer FROM users WHERE `birthday` is NOT null) as years GROUP BY year(birthdayYaer) ORDER BY year";
+    $query = "SELECT COUNT(*) as count FROM (SELECT birthday as birthdayYaer FROM users WHERE `birthday` is NOT null) as years GROUP BY year(birthdayYaer) ORDER BY year(birthdayYaer)";
 
     return $query;
 }
