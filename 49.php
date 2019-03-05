@@ -29,7 +29,8 @@ function SQLQuery($mysqli, $sql)
 function getQuery()
 {
 
-    $query = 'select first_name from users order by birthday';
+
+    $query = 'SELECT users.first_name from users ORDER BY birthday DESC ';
 
     return $query;
 }
@@ -39,7 +40,6 @@ function runQuery(mysqli $mysqli, $query)
 {
     $result = null;
     try {
-
 
 
         $res = SQLQuery($mysqli, $query);
@@ -66,8 +66,7 @@ function getInitQuerys()
     $allQuery[] = 'CREATE TABLE users (
     first_name varchar(255),
     email varchar(255),
-    birthday timestamp
-);';
+    birthday date );';
     $allQuery[] = "INSERT INTO users (first_name, email, birthday) VALUES
   ('Sansa', 'sansa@winter.com', '1999-10-23'),
   ('Jon', 'jon@winter.com', '1999-10-07'),
@@ -100,8 +99,6 @@ function runQuerys(mysqli $mysqli, $querys)
 
     return true;
 }
-
-
 
 
 $mysqli = getMySQLIObj();
