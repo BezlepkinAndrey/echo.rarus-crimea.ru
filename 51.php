@@ -26,10 +26,10 @@ function SQLQuery($mysqli, $sql)
     return $res;
 }
 
-function getQuery()
+function getQuery($step = 2, $count = 3)
 {
 
-    $allQuery = "select * from users where birthday <= '2002-10-03'order by first_name limit 2,3";
+    $allQuery = "select * from users where birthday <= '2002-10-03'order by first_name limit " . $step . "," . $count;
 
     return $allQuery;
 }
