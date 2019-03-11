@@ -11,6 +11,16 @@
 |
 */
 
+
+
+Route::group(['prefix' => 'vote'], function () {
+
+    Route::group(['middleware' => 'auth.survey_participant'], function () {
+        Route::get('/{id}', 'SurveyController@getAssessmentPage');
+    });
+
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
