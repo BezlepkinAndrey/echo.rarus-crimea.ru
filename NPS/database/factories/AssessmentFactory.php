@@ -16,9 +16,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Assessment::class, function (Faker $faker) {
 
-    $date = $faker->dateTimeBetween('-5 years');
+    $date = $faker->dateTimeBetween('-5 month');
     return [
-        'assessment' => (int)$faker->randomFloat(0, 1, 10),
+        'assessment' => random_int(random_int(random_int(1, 8), 9), 10),
         'created_at' => date_timestamp_get($date)
     ];
 });

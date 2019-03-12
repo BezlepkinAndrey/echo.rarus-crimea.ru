@@ -16,8 +16,8 @@ class CreateSurveyParticipantsTable extends Migration
         Schema::create('survey_participants', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('secret_key');
-            $table->string('tip');
+            $table->string('secret_key')->nullable();
+            $table->string('tip')->nullable();
             $table->timestamps();
         });
     }
