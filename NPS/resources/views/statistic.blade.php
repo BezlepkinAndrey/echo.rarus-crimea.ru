@@ -54,7 +54,7 @@
                         text: "Динамика за 180 дней"
                     },
                     axisX           : {
-                        valueFormatString: "DD MMM YYYY"
+                        valueFormatString: "DD.MM.YYYY"
                     },
                     axisY2          : {
                         title : "ИЭЛ",
