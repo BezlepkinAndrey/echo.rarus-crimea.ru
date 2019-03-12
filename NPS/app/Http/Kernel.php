@@ -41,7 +41,8 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
             \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \App\Http\Middleware\InputDataLoger::class
         ],
     ];
 
@@ -63,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle'                => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'                => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.survey_participant' => \App\Http\Middleware\AuthenticateSurveyParticipant::class,
+        'form_data_logger'         => \App\Http\Middleware\InputDataLoger::class,
     ];
 
     /**

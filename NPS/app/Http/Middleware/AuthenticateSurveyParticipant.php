@@ -3,16 +3,31 @@
 namespace App\Http\Middleware;
 
 use App\SurveyParticipant;
-
 use Closure;
-use Dotenv\Regex\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-use SebastianBergmann\Environment\Console;
 
+/**
+ *
+ * Middleware, авторизации участников опроса
+ *
+ * Class AuthenticateSurveyParticipant
+ *
+ * @package App\Http\Middleware
+ */
 class AuthenticateSurveyParticipant
 {
 
+    /**
+     *
+     * Метод вызываемый в гуппах путей запросов
+     * Производит авторизацию и добавление результатов к запросу для дальнейшего использования
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
+     * @return mixed
+     */
     public function handle(Request $request, Closure $next)
     {
 
@@ -25,7 +40,15 @@ class AuthenticateSurveyParticipant
         return $next($request);
     }
 
-
+    /**
+     *
+     * Бизнес логика авторизации участника опроса
+     *
+     * @param $usr участник опроса
+     * @param $request
+     *
+     * @return array массив авторизационных данных
+     */
     private function auth($usr, $request)
     {
 
@@ -79,10 +102,15 @@ class AuthenticateSurveyParticipant
         return ['isAuth' => $isAuth, 'isFirstCall' => $isFirstCall];
     }
 
-    private
-    function getUsr(
-        $request
-    ) {
+    /**
+     * Метод получения пользователя из БД
+     *
+     * @param $request
+     *
+     * @return |null
+     */
+    private function getUsr($request)
+    {
         $usr = null;
         $id = $request->route('id');
         if ($id !== null) {

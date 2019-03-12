@@ -122,7 +122,7 @@
                         url    : "{{route('setAssessment',[$request->surveyParticipant->id])}}",
                         data   : JSONData,
                         success: function (result) {
-                            console.log(result);
+
                             result = JSON.parse(result);
                             if (result.code === 1) {
                                 $('#submit').text(' Проголосовать').removeClass().addClass('btn btn-success float-right').detach('span').prop("disabled", true);
