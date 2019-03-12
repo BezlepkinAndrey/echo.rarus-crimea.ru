@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\DB;
 use App\Assessment;
 use App\SurveyParticipant;
 
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\StatisticsExport;
+
 class SurveyController extends Controller
 {
 
@@ -95,15 +102,15 @@ class SurveyController extends Controller
         return view('keyGenerator');
     }
 
-    protected function getStatisticArr($count = 180, $step = 24 * 60 * 60)
+    protected function getStatisticArr($min = true, $count = 180, $step = 24 * 60 * 60)
     {
 
         $dateNow = strtotime(date('Y-m-d'));
-        $startDate = $dateNow - $step * $count;
+        $startDate = $dateNow - $step * ($count - 1);
 
         $arrAssessment = [];
         for ($i = $startDate; $i <= $dateNow; $i += $step) {
-            $arrAssessment[] = $this->assessmentOfDate($i)['mainData'];
+            $arrAssessment[] = $min ? $this->assessmentOfDate($i)['mainData'] : $this->assessmentOfDate($i);
         }
 
 
@@ -209,9 +216,9 @@ class SurveyController extends Controller
 
     public function getStatisticInExcel()
     {
-        $data = $this->assessmentOfDate(time());
+        $data = $this->getStatisticArr(false);
+        return Excel::download(new StatisticsExport($data), 'export.xlsx');
 
-        return $data;
     }
 }
 

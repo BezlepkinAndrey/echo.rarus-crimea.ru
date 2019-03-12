@@ -24,12 +24,13 @@
 
     <div>
         <h3 class="float-left">Текущие данные</h3>
-        <button id="excel" class="btn btn-success float-right">Выгрузить в Excell</button>
+        <a href="{{route('getStatisticInExcel')}}" id="excelA" class="btn btn-success float-right">Выгрузить в
+            Excel</a>
     </div>
-    <table class="table">
+    <table class="table table-responsive">
 
         <tr>
-            <th scope="col">Количество проголосававших</th>
+            <th scope="col">Количество проголосовавших</th>
             <th scope="col">ИЭЛ</th>
             <th scope="col">Процент критиков</th>
             <th scope="col">Процент промоутеров</th>
@@ -141,23 +142,6 @@
                     loadData();
                 })
 
-                $("#excel").click(() => {
-
-                    $.ajax({
-                        exportEnabled: true,
-                        type         : 'GET',
-                        url          : "{{route('getStatisticInExcel')}}",
-                        success      : function (result) {
-                        },
-
-                        error: function (result) {
-
-                            console.log(result);
-
-                        }
-                    });
-
-                });
 
             });
     </script>
