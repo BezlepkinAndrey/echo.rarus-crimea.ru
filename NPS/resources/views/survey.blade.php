@@ -5,7 +5,7 @@
 
     @if($request->surveyParticipant !== null)
 
-        <form class="card-body was-validated" id="data">
+        <form class="card-body was-validated text-center" id="data">
             <h2 class="card-title">Добрый день!</h2>
             <p class="card-text">Мы хотели бы узнать</p>
 
@@ -26,8 +26,9 @@
 
             <p class="card-text">Мы ценим голос каждого нашего клиента и не допустим головования от вашего имени!</p>
 
+            {{$request->firstCall}}
             @if(!$request->isAuth)
-                @if($request->firstCall)
+                @if($request->isFirstCall)
 
                     <p class="card-text">Поскольку вы голосуете впервые, мы просим вас ввести свой уникальный ключ,
                         чтобы злоумышленники не смогли голосовать от вашего имени.</p>
@@ -44,9 +45,7 @@
                                placeholder="Введите подсказку..."
                                class="form-control" required>
                         <div class="input-group-append">
-                            <button class="btn btn-primary" id="submit" name="submit" disabled>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...
+                            <button class="btn btn-primary" id="submit" name="submit"> Проголосовать
                             </button>
                         </div>
                     </div>
@@ -101,6 +100,7 @@
             }
 
             $(document).ready(() => {
+
                 $("#data").submit(function (event) {
 
 
@@ -115,6 +115,8 @@
                     $('#submit').text(' Загрузка...').prop("disabled", true).prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
                     $('#answer').remove();
 
+                    console.log(JSONData);
+
                     $.ajax({
                         type   : 'POST',
                         url    : "{{route('setAssessment',[$request->surveyParticipant->id])}}",
@@ -123,13 +125,13 @@
                             console.log(result);
                             result = JSON.parse(result);
                             if (result.code === 1) {
-                                $('#submit').text('Выполнено').removeClass().addClass('btn btn-success float-right').detach('span');
+                                $('#submit').text(' Проголосовать').removeClass().addClass('btn btn-success float-right').detach('span').prop("disabled", true);
+                                $('form').append('<div id="answer">' +
+                                    '<h3> Ваш ответ принят!</h3>' +
+                                    '<a href="{{route('assessmentPage',[$request->surveyParticipant->id])}}">Проголосовать еще раз</a>');
 
-                                $('form').append('<div id="answer"> ' +
-                                    '<h3>Ваш ответ принят!!!</h3>' +
-                                    '<p class="card-text">Благодарим вас за участие в тестировании!</p>' +
-                                    '<a href="{{$request->path}}">Пройти опрос еще раз</a></div>');
                             } else {
+
                                 $('#submit').text(' Проголосовать').removeClass().addClass('btn btn-danger float-right').detach('span').prop("disabled", false);
                                 $('input').prop("disabled", false);
 
@@ -141,8 +143,9 @@
                                 } else {
                                     $('form').append('<div id="answer">' +
                                         '<h3> Упссссс.... Что то пошло не так. Попробуйте проголосовать еще раз.</h3>' +
-                                        '<img src="https://i.simpalsmedia.com/forum.md/comments/900x900/ecd7efdfee7cd9a8995ea0a8a69acacb.jpg"></div>');
+                                        '<a href="{{route('assessmentPage',[$request->surveyParticipant->id])}}">Перезагрузить</a>');
 
+                                    $('#submit').prop("disabled", true);
                                 }
 
 
@@ -164,6 +167,7 @@
         <h1>Похоже, что вы потерялись!</h1>
         <p>Обратитесь к системному администратору для полуение вашей ссылки для голосования</p>
         <img src="https://i.simpalsmedia.com/forum.md/comments/900x900/ecd7efdfee7cd9a8995ea0a8a69acacb.jpg">
+
     @endif
 
 @endsection

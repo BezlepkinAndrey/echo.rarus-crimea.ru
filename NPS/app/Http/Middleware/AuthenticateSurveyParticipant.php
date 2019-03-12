@@ -44,9 +44,10 @@ class AuthenticateSurveyParticipant
 
                     $key = $body['key'];
                 }
+
                 if (array_key_exists('tip', $body)) {
 
-                    $key = $body['tip'];
+                    $tip = $body['tip'];
                 }
             }
 

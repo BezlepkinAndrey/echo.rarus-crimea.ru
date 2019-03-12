@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -27,8 +27,7 @@
 <div class="container-fluid">
 
     <div class="row justify-content-center">
-        <div class="card text-center col-lg-6 main-card">
-
+        <div class="card col-lg-6 main-card">
 
             @yield('content')
 
