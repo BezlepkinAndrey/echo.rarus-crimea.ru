@@ -13,6 +13,29 @@ use Illuminate\Http\Request;
 |
 */
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['middleware' => 'form_data_logger'], function () {
+    Route::group(['prefix' => 'vote'], function () {
+
+
+        Route::group(['middleware' => 'auth.survey_participant'], function () {
+            Route::post('set_assessment/{id}',
+                'SurveyController@setAssessment')->where(['id' => '[0-9]+'])->name('setAssessment');
+        });
+    });
+
+
+    Route::group(['prefix' => 'statistic'], function () {
+
+        Route::get('data', 'SurveyController@getStatistic')->name('getStatistic');
+        Route::get('data/excel', 'SurveyController@getStatisticInExcel')->name('getStatisticInExcel');
+
+        Route::get('links/new/{count}',
+            'SurveyController@getNewLinks')->where(['count' => '[0-9]+'])->name('getNewLinks');
+
+    });
 });

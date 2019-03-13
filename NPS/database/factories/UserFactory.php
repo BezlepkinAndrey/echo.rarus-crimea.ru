@@ -1,8 +1,8 @@
 <?php
 
 use App\User;
-use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,7 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
+
 
 $factory->define(User::class, function (Faker $faker) {
     return [
