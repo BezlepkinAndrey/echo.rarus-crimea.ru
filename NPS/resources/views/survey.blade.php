@@ -115,8 +115,6 @@
                     $('#submit').text(' Загрузка...').prop("disabled", true).prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
                     $('#answer').remove();
 
-                    console.log(JSONData);
-
                     $.ajax({
                         type   : 'POST',
                         url    : "{{route('setAssessment',[$request->surveyParticipant->id])}}",
