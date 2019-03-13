@@ -14,6 +14,9 @@ use Faker\Generator as Faker;
 |
 */
 
+/**
+ * Фабрика зоздания оценок участников опроса
+ */
 $factory->define(Assessment::class, function (Faker $faker) {
 
     $date = $faker->dateTimeBetween('-5 month');

@@ -14,7 +14,9 @@ use Faker\Generator as Faker;
 |
 */
 
-
+/**
+ * Фабрика зоздания участников опроса
+ */
 $factory->define(SurveyParticipant::class, function (Faker $faker) {
 
     $secretKey = $faker->email;

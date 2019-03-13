@@ -1,14 +1,11 @@
 <?php
 
-use App\SurveyParticipant;
-use App\Assessment;
-
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Загрузка данных в БД
      *
      * @return void
      */
