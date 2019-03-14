@@ -1,4 +1,4 @@
-<table style="color: red">
+<table>
 
     @php($i = 0)
     @foreach($data as $arr)
