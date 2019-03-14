@@ -10,7 +10,7 @@
             <p class="card-text">Мы хотели бы узнать</p>
 
             <hr class="my-4">
-            <h2>На сколько вы оцениваете нашу работу?</h2>
+            <h2>На сколько Вы оцениваете нашу работу?</h2>
 
             @for($i=1;$i<11;$i++)
                 <div class="custom-control custom-radio custom-control-inline">
