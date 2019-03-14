@@ -27,7 +27,7 @@
             <p class="card-text">Мы ценим голос каждого нашего клиента и не допустим головования от вашего имени!</p>
 
             {{$request->firstCall}}
-            @if(!$request->isAuth)
+            @if($request->isAuth)
                 @if($request->isFirstCall)
 
                     <p class="card-text">Поскольку вы голосуете впервые, мы просим вас ввести свой уникальный ключ,
@@ -60,7 +60,9 @@
 
                     <div class="input-group mb-3">
                         <input type="text" name="key" id="key" class="form-control" placeholder="Секретный ключ"
-                               aria-label="Секретный ключ" required>
+                               aria-label="Секретный ключ"
+                               value="{{(isset($_COOKIE[''.$request->surveyParticipant->id.'']))? '':$request->surveyParticipant->secret_key}}"
+                               required>
                         <div class="input-group-append">
                             <button class="btn btn-primary" id="submit" name="submit">
                                 Проголосовать
