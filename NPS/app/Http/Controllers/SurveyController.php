@@ -193,11 +193,18 @@ class SurveyController extends Controller
      */
     protected function getCountUsrTypes($assessments)
     {
+
+        $detail = [];
+        for ($i = 1; $i < 11; $i++) {
+            $detail[$i] = 0;
+        }
+
         $good = 0;
         $bad = 0;
         $neutral = 0;
         $count = 0;
         foreach ($assessments as $assessment) {
+            $detail[$assessment->assessment]++;
             if ($assessment->assessment < 7) {
                 $bad++;
             } else {
@@ -209,7 +216,7 @@ class SurveyController extends Controller
             }
             $count++;
         }
-        return ['good' => $good, 'bad' => $bad, 'neutral' => $neutral, 'count' => $count];
+        return ['detail' => $detail, 'good' => $good, 'bad' => $bad, 'neutral' => $neutral, 'count' => $count];
     }
 
     /**
