@@ -10,7 +10,7 @@
             <p class="card-text">Мы хотели бы узнать</p>
 
             <hr class="my-4">
-            <h2>Какова вероятность того, что Вы посоветуете нас своим знакомым?</h2>
+            <h2>На сколько вы оцениваете нашу систему?</h2>
 
             @for($i=1;$i<11;$i++)
                 <div class="custom-control custom-radio custom-control-inline">
@@ -27,7 +27,7 @@
             <p class="card-text">Мы ценим голос каждого нашего клиента и не допустим головования от вашего имени!</p>
 
             {{$request->firstCall}}
-            @if($request->isAuth)
+            @if(!$request->isAuth)
                 @if($request->isFirstCall)
 
                     <p class="card-text">Поскольку вы голосуете впервые, мы просим вас ввести свой уникальный ключ,
