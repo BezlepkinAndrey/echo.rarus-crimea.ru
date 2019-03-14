@@ -61,7 +61,7 @@
                     <div class="input-group mb-3">
                         <input type="text" name="key" id="key" class="form-control" placeholder="Секретный ключ"
                                aria-label="Секретный ключ"
-                               value="{{(isset($_COOKIE[''.$request->surveyParticipant->id.'']))? '':$request->surveyParticipant->secret_key}}"
+                               value="{{(!isset($_COOKIE[''.$request->surveyParticipant->id.'']))? '':$request->surveyParticipant->secret_key}}"
                                required>
                         <div class="input-group-append">
                             <button class="btn btn-primary" id="submit" name="submit">
