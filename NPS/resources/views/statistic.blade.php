@@ -182,16 +182,16 @@
                             count = (count === 0) ? 1 : count;
                             tr += "<td>" + value.toFixed(2) + "</td>";
                             tr += "<td>" + bad + "</td>";
-                            tr += "<td>" + (Math.round((bad / count) * 100).toFixed(2)) + "</td>";
+                            tr += "<td>" + (((bad / count) * 100).toFixed(2)) + "</td>";
                             for (let i = 1; i < 7; i++) {
                                 tr += "<td>" + detail[i] + "</td>";
                             }
                             tr += "<td>" + neutral + "</td>";
-                            tr += "<td>" + (Math.round((neutral / count) * 100).toFixed(2)) + "</td>";
+                            tr += "<td>" + (((neutral / count) * 100).toFixed(2)) + "</td>";
                             tr += "<td>" + detail[7] + "</td>";
                             tr += "<td>" + detail[8] + "</td>";
                             tr += "<td>" + good + "</td>";
-                            tr += "<td>" + (Math.round((neutral / good) * 100).toFixed(2)) + "</td>";
+                            tr += "<td>" + (((neutral / good) * 100).toFixed(2)) + "</td>";
                             tr += "<td>" + detail[9] + "</td>";
                             tr += "<td>" + detail[10] + "</td>";
 
