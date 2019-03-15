@@ -302,7 +302,7 @@ class SurveyController extends Controller
     {
         $count = (int)$count;
 
-        if ($count > 0) {
+        if ($count > 0 && $count < 1001) {
             try {
                 $result = [];
                 DB::beginTransaction();
@@ -329,7 +329,7 @@ class SurveyController extends Controller
         } else {
 
             $body['code'] = 2;
-            $body['answer'] = 'count error: count < 1';
+            $body['answer'] = 'count error: count < 1 or count > 1000';
 
         }
 

@@ -8,7 +8,7 @@
 
     <form id="form" class="was-validated">
         <div class="input-group">
-            <input name="count" type="number" min="1" id="count"
+            <input name="count" type="number" min="1" max="1000" id="count"
                    placeholder="Количество строк"
                    class="form-control"
                    required>
