@@ -23,7 +23,3 @@ Route::group(['prefix' => 'vote'], function () {
 
 });
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
