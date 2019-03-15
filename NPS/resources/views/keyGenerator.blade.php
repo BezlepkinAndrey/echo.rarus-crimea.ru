@@ -2,91 +2,94 @@
 
 @section('content')
 
-    <a href="{{route('statistics')}}">Статистика</a>
+    <div class="card col-lg-6 main-card">
 
-    <hr class="my-4">
+        <a href="{{route('statistics')}}">Статистика</a>
 
-    <form id="form" class="was-validated">
-        <div class="input-group">
-            <input name="count" type="number" min="1" max="1000" id="count"
-                   placeholder="Количество строк"
-                   class="form-control"
-                   required>
-            <div class="input-group-append">
-                <button class="btn btn-primary" id="submit" name="submit">
-                    Получить
-                </button>
+        <hr class="my-4">
+
+        <form id="form" class="was-validated">
+            <div class="input-group">
+                <input name="count" type="number" min="1" max="1000" id="count"
+                       placeholder="Количество строк"
+                       class="form-control"
+                       required>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" id="submit" name="submit">
+                        Получить
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-    <table class="table">
+        </form>
+        <table class="table">
 
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ссылка</th>
-        </tr>
-        </thead>
-        <tbody id="data">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ссылка</th>
+            </tr>
+            </thead>
+            <tbody id="data">
 
-        </tbody>
+            </tbody>
 
-    </table>
+        </table>
 
-    <script>
-        $(document).ready(() => {
-            $("#form").submit(function (event) {
-
-
-                event.preventDefault();
-
-                $('#count').prop("disabled", true);
-                $('#submit').text(' Загрузка...').prop("disabled", true).prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-                $('#answer').remove();
+        <script>
+            $(document).ready(() => {
+                $("#form").submit(function (event) {
 
 
-                var link = '{!! route('getNewLinks',['count'=>'count'])!!}'.replace(/count/g, $('#count').val());
+                    event.preventDefault();
+
+                    $('#count').prop("disabled", true);
+                    $('#submit').text(' Загрузка...').prop("disabled", true).prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+                    $('#answer').remove();
 
 
-                $.ajax({
-                    type   : 'GET',
-                    url    : link,
-                    success: function (result) {
-                        result = JSON.parse(result);
+                    var link = '{!! route('getNewLinks',['count'=>'count'])!!}'.replace(/count/g, $('#count').val());
 
-                        if (result.code === 1) {
-                            $('#data td').detach();
-                            for (let i = 0; i < result.links.length; i++) {
-                                $('#data').append('<tr><td>' + i + '</td><td><a href="' + result.links[i] +
-                                    '">' + result.links[i] + '</a></td></tr>'
-                                );
+
+                    $.ajax({
+                        type : 'GET',
+                        url  : link,
+                        success: function (result) {
+                            result = JSON.parse(result);
+
+                            if (result.code === 1) {
+                                $('#data td').detach();
+                                for (let i = 0; i < result.links.length; i++) {
+                                    $('#data').append('<tr><td>' + i + '</td><td><a href="' + result.links[i] +
+                                        '">' + result.links[i] + '</a></td></tr>'
+                                    );
+                                }
+
+                                $('#submit').text('Проголосовать').removeClass().addClass('btn btn-success').detach('span').prop("disabled", false);
+
+                            } else {
+                                $('#submit').text('Получить').removeClass().addClass('btn btn-danger float-right').detach('span').prop("disabled", false);
+                                $('#count').prop("disabled", false);
+
+                                $('form').append('<div id="answer">' +
+                                    '<h3> Упссссс.... Что то пошло не так. Попробуйте проголосовать еще раз.</h3>' +
+                                    '<img src="https://i.simpalsmedia.com/forum.md/comments/900x900/ecd7efdfee7cd9a8995ea0a8a69acacb.jpg"></div>');
+
+
                             }
 
-                            $('#submit').text('Проголосовать').removeClass().addClass('btn btn-success').detach('span').prop("disabled", false);
-
-                        } else {
-                            $('#submit').text('Получить').removeClass().addClass('btn btn-danger float-right').detach('span').prop("disabled", false);
                             $('#count').prop("disabled", false);
+                            $('#submit').prop("disabled", false);
+                        },
 
-                            $('form').append('<div id="answer">' +
-                                '<h3> Упссссс.... Что то пошло не так. Попробуйте проголосовать еще раз.</h3>' +
-                                '<img src="https://i.simpalsmedia.com/forum.md/comments/900x900/ecd7efdfee7cd9a8995ea0a8a69acacb.jpg"></div>');
+                        error: function (result) {
 
-
+                            console.log(result);
                         }
+                    });
 
-                        $('#count').prop("disabled", false);
-                        $('#submit').prop("disabled", false);
-                    },
-
-                    error: function (result) {
-
-                        console.log(result);
-                    }
                 });
-
-            });
-        })
-        ;
-    </script>
+            })
+            ;
+        </script>
+    </div>
 @endsection

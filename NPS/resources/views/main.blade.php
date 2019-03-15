@@ -27,12 +27,9 @@
 <div class="container-fluid">
 
     <div class="row justify-content-center">
-        <div class="card col-lg-6 main-card">
 
-            @yield('content')
+        @yield('content')
 
-
-        </div>
     </div>
 
 
