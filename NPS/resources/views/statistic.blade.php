@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('content')
-    <div class="card col-lg-11 main-card">
+    <div class="card col-lg-6 main-card">
 
 
         <div class="container-fluid spiner-abs">
@@ -26,39 +26,39 @@
             <a href="{{route('getStatisticInExcel')}}" id="excelA" class="btn btn-success float-right">Выгрузить в
                 Excel</a>
         </div>
-        <table class="table table-responsive table-bordered table-striped">
 
+
+        <table class="table table-bordered table-striped" style="width: 100% !important;">
 
             <tr>
-                <th rowspan="3">Количество проголосовавших</th>
-                <th rowspan="3">ИЭЛ</th>
-                <th colspan="8">Критики</th>
-                <th colspan="4">Нейтралы</th>
-                <th colspan="4">Промоутеры</th>
+                <th rowspan="2"><span style="font-weight:700">Количество голосов</span></th>
+                <th rowspan="2">ИЭЛ</th>
+                <th colspan="10">Абсолютное количество голосов по оценкам</th>
             </tr>
-            <tr>
-                <td rowspan="2">Абсолютное количество</td>
-                <td rowspan="2">Процент</td>
-                <td colspan="6">Абсолютное количество по оценкам</td>
-                <td rowspan="2">Абсолютное количество</td>
-                <td rowspan="2">Процент</td>
-                <td colspan="2">Абсолютное количество по оценкам</td>
-                <td rowspan="2">Абсолютное количество</td>
-                <td rowspan="2">Процент</td>
-                <td colspan="2">Абсолютное количество по оценкам</td>
-            </tr>
-
             <tr>
                 @for($j = 1; $j < 11;$j++)
                     <td>{{$j}}</td>
                 @endfor
 
             </tr>
-            <tr id="data">
+            <tr id="mainData">
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="3">Критики</td>
+                <td colspan="3">Нейтралы</td>
+                <td colspan="3">Промоутеры</td>
+            </tr>
+            <tr id="percentData">
+
+            </tr>
+            <tr id="absoluteData">
+
             </tr>
 
-
         </table>
+
+
         <hr class="my-4">
         <script>
 
@@ -180,22 +180,29 @@
 
                                 count = (count === 0) ? 1 : count;
                                 tr += "<td>" + value.toFixed(2) + "</td>";
-                                tr += "<td>" + bad + "</td>";
-                                tr += "<td>" + (((bad / count) * 100).toFixed(2)) + "</td>";
-                                for (let i = 1; i < 7; i++) {
+                                for (let i = 1; i < 11; i++) {
                                     tr += "<td>" + detail[i] + "</td>";
                                 }
-                                tr += "<td>" + neutral + "</td>";
-                                tr += "<td>" + (((neutral / count) * 100).toFixed(2)) + "</td>";
-                                tr += "<td>" + detail[7] + "</td>";
-                                tr += "<td>" + detail[8] + "</td>";
-                                tr += "<td>" + good + "</td>";
-                                tr += "<td>" + (((neutral / good) * 100).toFixed(2)) + "</td>";
-                                tr += "<td>" + detail[9] + "</td>";
-                                tr += "<td>" + detail[10] + "</td>";
 
-                                $('#data td').detach();
-                                $('#data').append(tr);
+                                $('#mainData td').detach();
+                                $('#mainData').append(tr);
+
+
+                                tr = "<td colspan='3'>Процент от общего количества</td>";
+                                tr += "<td colspan='3'>" + (((bad / count) * 100).toFixed(2)) + "</td>";
+                                tr += "<td colspan='3'>" + (((neutral / count) * 100).toFixed(2)) + "</td>";
+                                tr += "<td colspan='3'>" + (((neutral / good) * 100).toFixed(2)) + "</td>";
+
+                                $('#percentData td').detach();
+                                $('#percentData').append(tr);
+
+                                tr = "<td colspan=3>Абсолютное количество</td>";
+                                tr += "<td colspan=3>" + bad + "</td>";
+                                tr += "<td colspan=3>" + neutral + "</td>";
+                                tr += "<td colspan=3>" + good + "</td>";
+
+                                $('#absoluteData tr').detach();
+                                $('#absoluteData').append(tr);
 
 
                                 var newPoints = result.arrAssessment.map((item) => {
