@@ -1,0 +1,88 @@
+<?php /* /home/andrey/PhpstormProjects/echo.rarus-crimea.ru/NPS/resources/views/exports/statistics.blade.php */ ?>
+<table>
+
+    <?php ($i = 0); ?>
+    <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $arr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+
+        <?php if($i === 0): ?>
+            <tr>
+                <th colspan=19>Данные на текущий момент</th>
+            </tr>
+        <?php else: ?>
+
+            <tr>
+                <th colspan=19></th>
+            </tr>
+
+            <tr>
+                <th colspan=19>Данные за последние <?php echo e(count($arr)); ?> дней</th>
+            </tr>
+        <?php endif; ?>
+
+
+        <tr>
+            <th rowspan="3">Дата</th>
+            <th rowspan="3">Количество проголосовавших</th>
+            <th rowspan="3">ИЭЛ</th>
+            <th colspan="8">Критики</th>
+            <th colspan="4">Нейтралы</th>
+            <th colspan="4" class="table-success">Промоутеры</th>
+        </tr>
+        <tr>
+            <td rowspan="2">Абсолютное количество</td>
+            <td rowspan="2">Процент</td>
+            <td colspan="6">Абсолютное количество по оценкам</td>
+            <td rowspan="2">Абсолютное количество</td>
+            <td rowspan="2">Процент</td>
+            <td colspan="2">Абсолютное количество по оценкам</td>
+            <td rowspan="2">Абсолютное количество</td>
+            <td rowspan="2">Процент</td>
+            <td colspan="2">Абсолютное количество по оценкам</td>
+        </tr>
+        <tr>
+            <?php for($j = 1; $j < 11;$j++): ?>
+                <td><?php echo e($j); ?></td>
+            <?php endfor; ?>
+
+        </tr>
+
+
+        <?php $__currentLoopData = $arr; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $assessment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <tr>
+
+                <td><?php echo e($assessment['mainData']['date']); ?></td>
+                <th scope="col"><?php echo e($assessment['additionalData']['count']); ?></th>
+                <th scope="col"><?php echo e(round($assessment['mainData']['value'],2)); ?></th>
+
+                <?php ( $count = ($assessment['additionalData']['count'] === 0)? 1 : $assessment['additionalData']['count']); ?>
+
+
+                <th scope="col"><?php echo e($assessment['additionalData']['bad']); ?></th>
+                <th scope="col"><?php echo e(round($assessment['additionalData']['bad']/$count*100,2)); ?></th>
+                <?php for($j = 1; $j < 7; $j++): ?>
+                    <th scope="col"><?php echo e($assessment['additionalData']['detail'][$j]); ?></th>
+                <?php endfor; ?>
+
+                <th scope="col"><?php echo e($assessment['additionalData']['neutral']); ?></th>
+                <th scope="col"><?php echo e(round($assessment['additionalData']['neutral']/$count*100,2)); ?></th>
+                <?php for($j = 7; $j < 9; $j++): ?>
+                    <th scope="col"><?php echo e($assessment['additionalData']['detail'][$j]); ?></th>
+                <?php endfor; ?>
+
+
+                <th scope="col"><?php echo e($assessment['additionalData']['good']); ?></th>
+                <th scope="col"><?php echo e(round($assessment['additionalData']['good']/$count*100,2)); ?></th>
+                <?php for($j = 9; $j < 11; $j++): ?>
+                    <th scope="col"><?php echo e($assessment['additionalData']['detail'][$j]); ?></th>
+                <?php endfor; ?>
+
+            </tr>
+
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php ($i++); ?>
+
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+
+</table>
