@@ -44,10 +44,10 @@
             <tr id="mainData">
             </tr>
             <tr>
-                <td colspan="3"></td>
-                <td colspan="3">Критики</td>
-                <td colspan="3">Нейтралы</td>
-                <td colspan="3">Промоутеры</td>
+                <td colspan="2"></td>
+                <td colspan="6">Критики</td>
+                <td colspan="2">Нейтралы</td>
+                <td colspan="2">Промоутеры</td>
             </tr>
             <tr id="percentData">
 
@@ -188,20 +188,20 @@
                                 $('#mainData').append(tr);
 
 
-                                tr = "<td colspan='3'>Процент от общего количества</td>";
-                                tr += "<td colspan='3'>" + (((bad / count) * 100).toFixed(2)) + "</td>";
-                                tr += "<td colspan='3'>" + (((neutral / count) * 100).toFixed(2)) + "</td>";
-                                tr += "<td colspan='3'>" + (((neutral / good) * 100).toFixed(2)) + "</td>";
+                                tr = "<td colspan='2'>Процент от общего количества</td>";
+                                tr += "<td colspan='6'>" + (((bad / count) * 100).toFixed(2)) + "</td>";
+                                tr += "<td colspan='2'>" + (((neutral / count) * 100).toFixed(2)) + "</td>";
+                                tr += "<td colspan='2'>" + (((neutral / good) * 100).toFixed(2)) + "</td>";
 
                                 $('#percentData td').detach();
                                 $('#percentData').append(tr);
 
-                                tr = "<td colspan=3>Абсолютное количество</td>";
-                                tr += "<td colspan=3>" + bad + "</td>";
-                                tr += "<td colspan=3>" + neutral + "</td>";
-                                tr += "<td colspan=3>" + good + "</td>";
+                                tr = "<td colspan=2>Абсолютное количество</td>";
+                                tr += "<td colspan=6>" + bad + "</td>";
+                                tr += "<td colspan=2>" + neutral + "</td>";
+                                tr += "<td colspan=2>" + good + "</td>";
 
-                                $('#absoluteData tr').detach();
+                                $('#absoluteData td').detach();
                                 $('#absoluteData').append(tr);
 
 
