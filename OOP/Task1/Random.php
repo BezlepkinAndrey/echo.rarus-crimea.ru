@@ -1,20 +1,14 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace OOP\Task1;
 
-interface RandomInterface
-{
-    function __construct(int $seed);
-
-    function getNext();
-
-    function reset();
-}
+require 'RandomI.php';
 
 /**
- * Class Random
+ * Class Random Является генератором псевдаслучайных чисел. Реализует алгоритм - https://ru.wikipedia.org/wiki/Линейный_конгруэнтный_метод
+ * Параметры алгоритма как в генераторах - ANSI C: Watcom, Digital Mars, CodeWarrior, IBM VisualAge C/C++
  *
  * @package OOP\Task1
  */
@@ -26,36 +20,40 @@ class Random implements RandomInterface
     protected $c;
     protected $m;
 
-    protected $previousState = 0;
+    protected $currentValue = 0;
 
     /**
-     * Random constructor.
+     * Random конструктор.
      *
-     * @param int $seed Первое рандомное значение
+     * @param int $seed Начальное псевдослучайное число
      */
     public function __construct(int $seed)
     {
         $this->seed = $seed;
-        $this->previousState = $seed;
+        $this->currentValue = $seed;
         $this->a = 1103515245;
         $this->c = 12345;
         $this->m = pow(2, 31);
     }
 
     /**
-     * @return int Псевда рандомное число
+     * Метод позволяет получить случайное число
+     *
+     * @return int Случайное число
      */
-    function getNext()
+    function getNext(): int
     {
-        return $this->previousState = ($this->a * $this->previousState + $this->c) % $this->m;
+        return $this->currentValue = ($this->a * $this->currentValue + $this->c) % $this->m;
     }
 
     /**
-     * Сброс генератора псевдослучайных часел
+     * Сброс генератора до первоначального состояния
+     *
+     * @return mixed
      */
     function reset()
     {
-        $this->previousState = $this->seed;
+        $this->currentValue = $this->seed;
     }
 }
 

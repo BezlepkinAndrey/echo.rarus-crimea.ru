@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace OOP\Task1;
 
+use mysql_xdevapi\Exception;
+
 require 'Square.php';
 
 /**
- * Class SquaresGenerator
+ * Class SquaresGenerator Позволяет генерировать квадраты
  *
  * @package OOP\Task1
  */
@@ -14,19 +16,24 @@ class SquaresGenerator
 {
 
     /**
-     * @param float $side
-     * @param int   $count Сторона квадрата
+     * Метод позволяет генерировать заданное количество квадратов с заданной стороной
      *
-     * @return array Массив экземпляров
+     * @param float $side  Размер стороны квадратов
+     * @param int   $count Количество генерируемых квадратов
+     *
+     * @return array Массив квадратов
      */
-    public static function generate(float $side, int $count)
+    public static function generate(float $side, int $count): array
     {
+
+        if ($count < 0) {
+            throw new Exception('Количество генерируемых квадратов меньше нуля');
+        }
 
         $result = [];
 
-        while ($count) {
+        while ($count--) {
             $result[] = new Square($side);
-            $count--;
         }
 
         return $result;

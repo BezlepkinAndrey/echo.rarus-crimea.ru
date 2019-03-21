@@ -5,38 +5,86 @@ declare(strict_types=1);
 namespace OOP\Task1;
 
 /**
- * Class Circle
+ * Class Circle Позволяет описать круг, может применяться при расчетах параметров круга
  *
  * @package OOP\Task1
  */
 class Circle
 {
-    protected $radius = 0;
+    protected $radius;
+    protected $area;
+    protected $circumference;
 
     /**
-     * Конструктор класса
+     * Circle конструктор.
      *
-     * @param $radius Радиус круга
+     * @param float $radius Радиус круга
      */
     public function __construct(float $radius)
     {
+        if ($radius <= 0) {
+            throw new Exception('Радиус <= 0');
+        }
+
         $this->radius = $radius;
+        $this->area = $this->area($radius);
+        $this->circumference = $this->area($radius);
     }
 
     /**
-     * @return float|int Длина окружности
+     * Метод позволяет получить площадь круга
+     *
+     * @param float $radius Радиус круга для расчета
+     *
+     * @return float Площадь круга
      */
-    public function getCircumference()
+    public static function area(float $radius): float
     {
-        return 2 * pi() * $this->radius;
+        return pi() * ($radius * $radius);
     }
 
     /**
-     * @return float|int Площадь вигуры
+     * Метод позволяет найти длину окружности по тереданному
+     *
+     * @param float $radius Радиус круга для расчета
+     *
+     * @return float Длина окружности
      */
-    public function getArea()
+    public static function circumference(float $radius): float
     {
-        return pi() * ($this->radius * $this->radius);
+        return 2 * pi() * $radius;
+    }
+
+    /**
+     * Позволяет получить длину окружности объекта
+     *
+     * @return float Длина окружности
+     */
+    public function getCircumference(): float
+    {
+        if (isset($this->circumference)) {
+
+            return $this->circumference;
+        } else {
+
+            return $this->circumference = $this->circumference($this->radius);
+        }
+    }
+
+    /**
+     * Позволяет получить площадь круга (объекта)
+     *
+     * @return float Длина окружности
+     */
+    public function getArea(): float
+    {
+        if (isset($this->area)) {
+
+            return $this->area;
+        } else {
+
+            return $this->area = $this->area($this->radius);
+        }
     }
 
 }

@@ -4,25 +4,10 @@ declare(strict_types=1);
 
 namespace OOP\Task1;
 
-/**
- * Interface UrlInterface
- *
- * @package OOP\Task1
- */
-interface UrlInterface
-{
-    public function getScheme();
-
-    public function getHost();
-
-    public function getQueryParams();
-
-    public function getQueryParam(string $key, $defaultValue);
-
-}
+require 'UrlI.php';
 
 /**
- * Class Url
+ * Class Url Реализует интерфейс UrlInterface, предоставляющий методы по получению элементов запроса
  *
  * @package OOP\Task1
  */
@@ -30,11 +15,14 @@ class Url implements UrlInterface
 {
 
     protected $url;
+    protected $host;
+    protected $scheme;
+    protected $queryParams;
 
     /**
-     * Url constructor.
+     * Url конструктор
      *
-     * @param string $url
+     * @param string $url Url с которым будетут производиться манипуляции
      */
     public function __construct(string $url)
     {
@@ -42,40 +30,101 @@ class Url implements UrlInterface
     }
 
     /**
-     * @return mixed URL Схема
-     */
-    public function getScheme()
-    {
-        return parse_url($this->url)['scheme'];
-    }
-
-    /**
-     * @return mixed URL Хост
-     */
-    public function getHost()
-    {
-        return parse_url($this->url)['host'];
-    }
-
-    /**
-     * @return array Параметра запроса
-     */
-    public function getQueryParams()
-    {
-        $parts = parse_url($this->url);
-        $query = [];
-        parse_str($parts['query'], $query);
-        print_r($query);
-        return $query;
-    }
-
-    /**
-     * @param string $key          Ключ по которому будет происходить поиск
-     * @param null   $defaultValue Значение возвращающееся по умолчанию
+     * Метод позволяет получить схему запроса
      *
-     * @return mixed|null
+     * @param string $url Url из которого нужно получить схему
+     *
+     * @return string Схема
      */
-    public function getQueryParam(string $key, $defaultValue = null)
+    public static function scheme(string $url): string
+    {
+        return parse_url($url)['scheme'];
+    }
+
+    /**
+     * Метод позволяет получить хост запроса
+     *
+     * @param string $url Url из которого нужно получить хост
+     *
+     * @return string Хост
+     */
+    public static function host(string $url): string
+    {
+        return parse_url($url)['host'];
+    }
+
+    /**
+     * Метод позволяет получить параметры запроса в ассоциативном массиве
+     *
+     * @param string $url Url из которого нужно получить параметры
+     *
+     * @return array Параметры запроса
+     */
+    public static function queryParams(string $url): array
+    {
+        $parts = parse_url($url);
+        $queryParams = [];
+        parse_str($parts['query'], $queryParams);
+        return $queryParams;
+    }
+
+    /**
+     * Метод позволяет получить схему URL запроса
+     *
+     * @return string Схема URL запроса
+     */
+    public function getScheme(): string
+    {
+        if (isset($this->scheme)) {
+
+            return $this->scheme;
+        } else {
+
+            return $this->scheme = $this->scheme($this->url);
+        }
+    }
+
+    /**
+     * Метод позволяет получить хост URL запроса
+     *
+     * @return string Хост URL запроса
+     */
+    public function getHost(): string
+    {
+        if (isset($this->host)) {
+
+            return $this->host;
+        } else {
+
+            return $this->host = $this->host($this->url);
+        }
+    }
+
+    /**
+     * Метод позволяет получить массив параметров URL запроса
+     *
+     * @return array Массив параметров запроса
+     */
+    public function getQueryParams(): array
+    {
+        if (isset($this->queryParams)) {
+
+            return $this->queryParams;
+        } else {
+
+            return $this->queryParams = $this->queryParams($this->url);
+        }
+    }
+
+    /**
+     * Метод позволяет получить параметр URL запроса или если его нет вернуть дефолтное значение
+     *
+     * @param string      $key          Наименование параметра
+     * @param string|null $defaultValue Дефолтное значение возвращаемое в случае отсутствия параметра
+     *
+     * @return string|null
+     */
+    public function getQueryParam(string $key, ?string $defaultValue = null): ?string
     {
         $params = $this->getQueryParams();
         return isset($params[$key]) ? $params[$key] : $defaultValue;
