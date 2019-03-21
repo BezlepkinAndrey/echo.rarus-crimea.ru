@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace OOP\Task1;
 
@@ -16,9 +17,9 @@ class Square
     /**
      * Square constructor.
      *
-     * @param $side Сторона квадрата
+     * @param float $side Сторона квадрата
      */
-    public function __construct($side)
+    public function __construct(float $side)
     {
         $this->side = $side;
     }
