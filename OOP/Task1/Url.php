@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace OOP\Task1;
 
@@ -16,7 +17,7 @@ interface UrlInterface
 
     public function getQueryParams();
 
-    public function getQueryParam($key, $defaultValue);
+    public function getQueryParam(string $key, $defaultValue);
 
 }
 
@@ -33,9 +34,9 @@ class Url implements UrlInterface
     /**
      * Url constructor.
      *
-     * @param $url
+     * @param string $url
      */
-    public function __construct($url)
+    public function __construct(string $url)
     {
         $this->url = $url;
     }
@@ -69,12 +70,12 @@ class Url implements UrlInterface
     }
 
     /**
-     * @param      $key          Ключ
-     * @param null $defaultValue Дефолтное значение
+     * @param string $key          Ключ по которому будет происходить поиск
+     * @param null   $defaultValue Значение возвращающееся по умолчанию
      *
-     * @return mixed|null Значение параметра
+     * @return mixed|null
      */
-    public function getQueryParam($key, $defaultValue = null)
+    public function getQueryParam(string $key, $defaultValue = null)
     {
         $params = $this->getQueryParams();
         return isset($params[$key]) ? $params[$key] : $defaultValue;

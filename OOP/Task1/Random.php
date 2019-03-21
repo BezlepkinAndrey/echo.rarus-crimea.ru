@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 
 namespace OOP\Task1;
 
 interface RandomInterface
 {
-    function __construct($seed);
+    function __construct(int $seed);
 
     function getNext();
 
@@ -30,9 +31,9 @@ class Random implements RandomInterface
     /**
      * Random constructor.
      *
-     * @param $seed Первое рандомное значение
+     * @param int $seed Первое рандомное значение
      */
-    public function __construct($seed)
+    public function __construct(int $seed)
     {
         $this->seed = $seed;
         $this->previousState = $seed;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace OOP\Task1;
 
@@ -13,12 +14,12 @@ class SquaresGenerator
 {
 
     /**
-     * @param $side  Сторона квадрата
-     * @param $count Количество экземпляров
+     * @param float $side
+     * @param int   $count Сторона квадрата
      *
      * @return array Массив экземпляров
      */
-    public static function generate($side, $count)
+    public static function generate(float $side, int $count)
     {
 
         $result = [];

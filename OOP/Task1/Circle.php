@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OOP\Task1;
 
 /**
@@ -12,11 +14,11 @@ class Circle
     protected $radius = 0;
 
     /**
-     * Circle constructor.
+     * Конструктор класса
      *
      * @param $radius Радиус круга
      */
-    public function __construct($radius)
+    public function __construct(float $radius)
     {
         $this->radius = $radius;
     }
