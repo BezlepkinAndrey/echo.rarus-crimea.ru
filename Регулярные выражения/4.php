@@ -3,98 +3,99 @@
 declare(strict_types=1);
 
 
-/*
-
-Задача 4 Написать регулярное выражение определяющее является ли данная строчка валидным URL адресом.
-В данной задаче правильным URL считаются адреса http и https, явное указание протокола также может отсутствовать.
-Учитываются только адреса, состоящие из символов, т.е. IP адреса в качестве URL не присутствуют при проверке.
-Допускаются поддомены, указание порта доступа через двоеточие, GET запросы с передачей параметров, доступ к
- подпапкам на домене, допускается наличие якоря через решетку. Однобуквенные домены считаются запрещенными.
-Запрещены спецсимволы, например «-» в начале и конце имени домена. Запрещен символ «_» и пробел в имени домена.
-При составлении регулярного выражения ориентируйтесь на список правильных и неправильных выражений заданных ниже.
-
-Пример правильных выражений:
-http://www.zcontest.ru
-http://zcontest.ru
-http://zcontest.com
-https://zcontest.ru
-https://sub.zcontest-ru.com:8080
-http://zcontest.ru/dir%201/dir_2/program.ext?var1=x&var2=my%20value
-zcon.com/index.html#bookmark
-
-Пример неправильных выражений:
-Just Text.
-http://a.com
-http://www.domain-.com
-
-
- */
-
 function pregFunc(string $str)
 {
-    return (bool)preg_match('/^{[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}}|([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})$/i',
+    return (bool)preg_match('/^((http:|https:)\/\/)?[A-Za-z0-9][-A-Za-z0-9]*[A-Za-z0-9](\.[A-Za-z0-9][-A-Za-z0-9]*[A-Za-z0-9])*(:[0-9]+)?(\/([A-Za-z0-9._]|%20)+)*(\?([A-Za-z0-9]|%20)+=([A-Za-z0-9]|%20)+(&([A-Za-z0-9]|%20)+=([A-Za-z0-9]|%20)+)*)?(#[A-Za-z0-9]+)?$/',
         $str);
 }
 
 function phpFunc(string $str)
 {
-    $strLength = strlen($str);
-    if (!($strLength === 36 || $strLength === 38)) {
-        return false;
-    }
 
-    $startPos = 0;
-    $endPos = $strLength - 1;
-    if ($strLength === 38) {
-        if (!($str[0] === '{' && $str[$strLength - 1] === '}')) {
+    $urlArr = parse_url($str);
+
+    if (isset($urlArr['scheme'])) {
+        if (!($urlArr['scheme'] === 'http' || $urlArr['scheme'] === 'https')) {
             return false;
-        } else {
-            $startPos = 1;
-            $endPos = $endPos - 1;
         }
+    } else {
+        $urlArr['host'] = explode('/', $urlArr['path'])[0];
     }
 
-    $str = mb_strtolower($str);
+    if (isset($urlArr['host'])) {
 
-    $counterArray = [8, 4, 4, 4, 12];
-    $counterArrayLastIndex = count($counterArray) - 1;
-    $counterIndex = 0;
-
-    $alph = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
-
-    for ($i = $startPos; $i <= $endPos; $i++) {
-        $symbol = $str[$i];
-
-        if ($counterArray[$counterIndex] === 0) {
-            if ($counterIndex !== $counterArrayLastIndex) {
-                if ($symbol !== '-') {
-                    return false;
-                } else {
-                    $counterIndex++;
-                }
-            }
-        } else {
-            if (in_array($symbol, $alph)) {
-                $counterArray[$counterIndex]--;
-            } else {
+        $hostSplitArr = explode('.', $urlArr['host']);
+        $hostSplitArrLength = count($hostSplitArr);
+        if ($hostSplitArrLength > 3) {
+            return false;
+        } elseif ($hostSplitArrLength === 3) {
+            if (strlen($hostSplitArr[1]) < 2) {
                 return false;
             }
+        } elseif (strlen($hostSplitArr[0]) < 2) {
+            return false;
         }
+
+
+        if (strlen($urlArr['host']) < 2) {
+            return false;
+        }
+
+        if (filter_var($urlArr['host'], FILTER_VALIDATE_IP)) {
+            return false;
+        }
+
+        if (substr_count($urlArr['host'], '.') > 2) {
+            return false;
+        }
+
+        if (strpos($urlArr['host'], '.-') !== false) {
+            return false;
+        }
+
+        if (strpos($urlArr['host'], '-.') !== false) {
+            return false;
+        }
+
+        if (strpos($urlArr['host'], '-.') !== false) {
+            return false;
+        }
+
+        if (strpos($urlArr['host'], ' ') !== false) {
+            return false;
+        }
+
+        if (strpos($urlArr['host'], '_') !== false) {
+            return false;
+        }
+
+
+    } else {
+
+        return false;
     }
 
     return true;
 }
 
-var_dump(pregFunc("{e02fa0e4-01ad-090A-c130-0d05a0008ba0}"));
-var_dump(pregFunc("e02fd0e4-00fd-090A-ca30-0d00a0038ba0"));
-
-var_dump(phpFunc("{e02fa0e4-01ad-090A-c130-0d05a0008ba0}"));
-var_dump(phpFunc("e02fa0e4-01ad-090A-c130-0d05a0008ba0"));
-
-
-var_dump(pregFunc("02fa0e4-01ad-090A-c130-0d05a0008ba0}"));
-var_dump(pregFunc("e02fd0e400fd090Aca300d00a0038ba0"));
-
-var_dump(phpFunc("02fa0e4-01ad-090A-c130-0d05a0008ba0}"));
-var_dump(phpFunc("e02fd0e400fd090Aca300d00a0038ba0"));
-
+var_dump(pregFunc("http://www.zcontest.ru"));
+var_dump(pregFunc("http://zcontest.ru"));
+var_dump(pregFunc("http://zcontest.com"));
+var_dump(pregFunc("https://zcontest.ru"));
+var_dump(pregFunc("https://sub.zcontest-ru.com:8080"));
+var_dump(pregFunc("http://zcontest.ru/dir%201/dir_2/program.ext?var1=x&var2=my%20value"));
+var_dump(pregFunc("zcon.com/index.html#bookmark"));
+var_dump(pregFunc("http://a.com"));
+var_dump(pregFunc("http://www.domain-.com"));
+var_dump(pregFunc("Just Text."));
+echo '   ';
+var_dump(phpFunc("http://www.zcontest.ru"));
+var_dump(phpFunc("http://zcontest.ru"));
+var_dump(phpFunc("http://zcontest.com"));
+var_dump(phpFunc("https://zcontest.ru"));
+var_dump(phpFunc("https://sub.zcontest-ru.com:8080"));
+var_dump(phpFunc("http://zcontest.ru/dir%201/dir_2/program.ext?var1=x&var2=my%20value"));
+var_dump(phpFunc("zcon.com/index.html#bookmark"));
+var_dump(phpFunc("Just Text."));
+var_dump(phpFunc("http://a.com"));
+var_dump(phpFunc("http://www.domain-.com"));

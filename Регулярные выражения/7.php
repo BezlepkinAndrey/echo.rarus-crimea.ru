@@ -9,14 +9,19 @@ function pregFunc(string $str)
 
 function phpFunc(string $str)
 {
+
+    if (!filter_var($str, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
     $emailSplitArr = explode('@', $str);
-    $domaineSplitArr = explode('.', $str);
+    $domaineSplitArr = explode('.', $emailSplitArr[1]);
 
     if (count($domaineSplitArr) !== 2) {
         return false;
     }
 
-    return (bool)filter_var($str, FILTER_VALIDATE_EMAIL);
+    return true;
 }
 
 var_dump(pregFunc("mail@mail.ru"));

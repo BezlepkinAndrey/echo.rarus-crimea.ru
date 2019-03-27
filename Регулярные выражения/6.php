@@ -19,11 +19,16 @@ function phpFunc(string $str)
     }
 
     $date = explode('/', $str);
+
     if (count($date) !== 3) {
         return false;
     }
 
-    if (strlen($date[0]) != 2 || strlen($date[1]) != 2 || strlen($date[2]) != 4) {
+    $date['year'] = $date[2];
+    $date['month'] = $date[1];
+    $date['day'] = $date[0];
+
+    if (strlen($date['day']) != 2 || strlen($date['month']) != 2 || strlen($date['year']) != 4) {
         return false;
     }
 
@@ -35,14 +40,14 @@ function phpFunc(string $str)
     );
 
 
-    $date[2] = ($date[2][0] === '0') ? $date[2][1] : $date[2];
-    $year = filter_var($date[2], FILTER_VALIDATE_INT, $options);
+    $date['year'] = ($date['year'][0] === '0') ? $date['year'][1] : $date['year'];
+    $year = filter_var($date['year'], FILTER_VALIDATE_INT, $options);
 
-    $date[1] = ($date[1][0] === '0') ? $date[1][1] : $date[1];
-    $month = filter_var($date[1], FILTER_VALIDATE_INT);
+    $date['month'] = ($date['month'][0] === '0') ? $date['month'][1] : $date['month'];
+    $month = filter_var($date['month'], FILTER_VALIDATE_INT);
 
-    $date[0] = ($date[0][0] === '0') ? $date[0][1] : $date[0];
-    $day = filter_var($date[0], FILTER_VALIDATE_INT);
+    $date['day'] = ($date['day'][0] === '0') ? $date['day'][1] : $date['day'];
+    $day = filter_var($date['day'], FILTER_VALIDATE_INT);
 
     if ($year === false || $month === false || $day === false) {
         return false;
