@@ -26,16 +26,14 @@ function phpFunc(string $str)
         }
     }
 
-    $str = mb_strtolower($str);
-
     $counterArray = [8, 4, 4, 4, 12];
     $counterArrayLastIndex = count($counterArray) - 1;
     $counterIndex = 0;
 
-    $alph = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+    $alphabet = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
     for ($i = $startPos; $i <= $endPos; $i++) {
-        $symbol = $str[$i];
+        $symbol = mb_strtolower($str[$i]);
 
         if ($counterArray[$counterIndex] === 0) {
             if ($counterIndex !== $counterArrayLastIndex) {
@@ -46,7 +44,7 @@ function phpFunc(string $str)
                 }
             }
         } else {
-            if (in_array($symbol, $alph)) {
+            if (in_array($symbol, $alphabet)) {
                 $counterArray[$counterIndex]--;
             } else {
                 return false;
